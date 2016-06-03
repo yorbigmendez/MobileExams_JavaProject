@@ -10,7 +10,7 @@ import sections.Section;
 public class Exam {
     private int id;
     private String name;
-    private int points;
+    private double points;
     private String author;
     private float grade;
     private ArrayList<Section> sectionList;
@@ -45,7 +45,7 @@ public class Exam {
         this.id = id;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(float points) {
         this.points = points;
     }
 
@@ -82,7 +82,7 @@ public class Exam {
         this.name = name;
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 

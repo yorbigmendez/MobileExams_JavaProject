@@ -31,8 +31,10 @@ import exams.Exam;
  */
 public class ExamManagementDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
+        ExamDetailFragment.OnFragmentInteractionListener,
         ExamListFragment.OnFragmentInteractionListener,
-        NewExam.OnFragmentInteractionListener
+        NewExam.OnFragmentInteractionListener,
+        SectionsFragment.OnFragmentInteractionListener
 {
     private int exam_pos;
     private ArrayList<Exam> examList;
@@ -76,31 +78,6 @@ public class ExamManagementDrawer extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    public void showDeleteAlert(){
-        Log.e("ALert Dialog","This is going to test");
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        Log.e("Set Title","This is going to test");
-        alertDialog.setTitle("Delete exam");
-        Log.e("Set Message", "This is going to test");
-        alertDialog.setMessage("Are you sure you want to delete this exam with all its sections questions?");
-        Log.e("Set Buttons", "This is going to test");
-        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        Log.e("Set Butons 2", "This is going to test");
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        Log.e("Dialog show it", "This is going to test");
-        // Showing Alert Message
-        alertDialog.show();
-        Log.e("SHOWED ITTT", "This is going to test");
     }
     /**
      * Inflates the menu which adds items to the action bar if it is present.
@@ -152,14 +129,15 @@ public class ExamManagementDrawer extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Fragment fragment = new ExamListFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_dashboard, fragment).commit();
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
             Fragment fragment = new NewExam();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_dashboard, fragment).commit();
-        } else if (id == R.id.nav_slideshow) {
 
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+            Fragment fragment = new ExamListFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_dashboard, fragment).commit();
+        } else if (id == R.id.nav_slideshow) {
+            super.onBackPressed();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

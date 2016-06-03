@@ -1,42 +1,23 @@
 package cr.ac.itcr.examproject;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-
-import access_data.ExamRepository;
-import adapter.AdapterExam;
-import exams.Exam;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ExamListFragment.OnFragmentInteractionListener} interface
+ * {@link SectionsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ExamListFragment#newInstance} factory method to
+ * Use the {@link SectionsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExamListFragment extends Fragment {
-    private ListView listViewExams;
-    private static AdapterExam adapter;
-    private ExamRepository repository;
-
+public class SectionsFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,7 +29,7 @@ public class ExamListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public ExamListFragment() {
+    public SectionsFragment() {
         // Required empty public constructor
     }
 
@@ -58,11 +39,11 @@ public class ExamListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ExamListFragment.
+     * @return A new instance of fragment SectionsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ExamListFragment newInstance(String param1, String param2) {
-        ExamListFragment fragment = new ExamListFragment();
+    public static SectionsFragment newInstance(String param1, String param2) {
+        SectionsFragment fragment = new SectionsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,41 +60,11 @@ public class ExamListFragment extends Fragment {
         }
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_exam_list, container, false);
-        listViewExams = (ListView)v.findViewById(R.id.listViewExams);
-        listViewExams.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Fragment manager to manage a fragment transaction
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                //Fragment to replace
-                Fragment f = new ExamDetailFragment();
-                //Prepare bundle to send info the the other fragment
-                Bundle bundle = new Bundle();
-                //Send the position of the list item that has been selected
-                bundle.putInt("examIndex",position);
-                f.setArguments(bundle);
-                transaction.replace(R.id.content_dashboard, f);
-                //On back then go back to ExamListFragment
-                transaction.addToBackStack(null);
-                //Commit transaction
-                transaction.commit();
-            }
-        });
-
-        repository = new ExamRepository(getContext().getApplicationContext());
-        ArrayList<Exam> e = repository.GetAll(0);
-        adapter = new AdapterExam(getActivity().getApplicationContext(),repository.GetAll(0));
-        listViewExams.setAdapter(adapter);
-        return v;
+        return inflater.inflate(R.layout.fragment_sections, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -155,6 +106,4 @@ public class ExamListFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 }
