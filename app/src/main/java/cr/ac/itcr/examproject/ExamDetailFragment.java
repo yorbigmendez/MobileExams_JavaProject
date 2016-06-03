@@ -1,9 +1,7 @@
 package cr.ac.itcr.examproject;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,7 +40,6 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
     private ImageButton btnSection;
     private ImageButton btnSave;
     private KeyListener variable;//Save the keyListener of the edit text, here is true
-    private OnFragmentInteractionListener mListener;
 
     public ExamDetailFragment() {
         // Required empty public constructor
@@ -101,7 +98,7 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 //Fragment to replace
-                Fragment f = new SectionsFragment();
+                Fragment f = new SectionsListFragment();
                 //Prepare bundle to send info the the other fragment
                 Bundle bundle = new Bundle();
                 //Send the position of the list item that has been selected
@@ -173,30 +170,6 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
         Log.e("SHOWED ITTT", "This is going to test");
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     /**
      * This interface must be implemented by activities that contain this

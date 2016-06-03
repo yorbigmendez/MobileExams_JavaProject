@@ -1,12 +1,15 @@
 package cr.ac.itcr.examproject;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,30 +18,34 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import access_data.ExamRepository;
-import adapter.AdapterExam;
-import exams.Exam;
+import access_data.SectionRepository;
+import adapter.SectionAdapter;
+import sections.Section;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ExamListFragment.OnFragmentInteractionListener} interface
+ * {@link SectionsListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class ExamListFragment extends Fragment {
-    private ListView listViewExams;
-    private static AdapterExam adapter;
-    private ExamRepository repository;
-
+public class SectionsListFragment extends Fragment{
+    private int examIndex;
+    private ListView listViewSections;
+    private SectionRepository section_repo;
+    private ArrayList<Section> examSections;
+    private SectionAdapter adapter;
+    private ExamRepository exam_repo;
 
     private OnFragmentInteractionListener mListener;
 
-    public ExamListFragment() {
+    public SectionsListFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
 
@@ -47,62 +54,58 @@ public class ExamListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_exams, container, false);
-        listViewExams = (ListView)v.findViewById(R.id.listViewExams);
-        listViewExams.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        setHasOptionsMenu(true);
+        View v =  inflater.inflate(R.layout.fragment_sections, container, false);
+        Bundle b = getArguments();
+        examIndex = b.getInt("examIndex");
+        section_repo = new SectionRepository(getContext().getApplicationContext());
+        examSections = section_repo.GetAll(examIndex);
+        listViewSections = (ListView)v.findViewById(R.id.listViewSections);
+        adapter = new SectionAdapter(getActivity().getApplicationContext(),examSections);
+        listViewSections.setAdapter(adapter);
+
+        listViewSections.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+
+        return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Auto-generated method stub
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_section_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.menuAdd:
                 //Fragment manager to manage a fragment transaction
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                //Fragment to replace
-                Fragment f = new ExamDetailFragment();
-                //Prepare bundle to send info the the other fragment
+                //Fragment to replaces
                 Bundle bundle = new Bundle();
                 //Send the position of the list item that has been selected
-                bundle.putInt("examIndex",position);
+                bundle.putInt("examIndex", examIndex);
+                Fragment f = new NewSection();
                 f.setArguments(bundle);
                 transaction.replace(R.id.content_dashboard, f);
                 //On back then go back to ExamListFragment
                 transaction.addToBackStack(null);
                 //Commit transaction
                 transaction.commit();
-            }
-        });
-
-        repository = new ExamRepository(getContext().getApplicationContext());
-        ArrayList<Exam> e = repository.GetAll(0);
-        adapter = new AdapterExam(getActivity().getApplicationContext(),repository.GetAll(0));
-        listViewExams.setAdapter(adapter);
-        return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
 
     /**
      * This interface must be implemented by activities that contain this
@@ -117,7 +120,6 @@ public class ExamListFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+
     }
-
-
 }

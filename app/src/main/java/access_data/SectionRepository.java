@@ -83,7 +83,7 @@ public class SectionRepository implements IRepository<Section> {
             if(db!=null){
                 String[] args = new String[]{String.valueOf(id)};
                 Cursor c = db.query("Section",new String[]{"id","name","description"},
-                        "id_exam=?",args,null,null,"id desc",null);
+                        "id_exam=?",args,null,null,"id asc",null);
                 if(c.moveToFirst()){
                     do{
                         int idx = c.getInt(0);

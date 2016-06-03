@@ -9,8 +9,4 @@
         android:icon="@drawable/icon_delete"
         android:title="Delete exam"
         app:showAsAction="ifRoom"/>
-    <item android:id="@+id/menuAdd"
-        android:icon="@drawable/icon_add"
-        android:title="Add section"
-        app:showAsAction="ifRoom"/>
 </menu>

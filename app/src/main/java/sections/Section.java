@@ -23,6 +23,13 @@ public class Section {
         this.id_exam = id_exam;
     }
 
+    public Section(String n, String d, int id_exam){
+        this.name = n;
+        this.description = d;
+        this.questionList = new ArrayList<>();
+        this.id_exam = id_exam;
+    }
+
     public void eliminateQuestion(Question q){
         for(int i = 0; i < questionList.size(); i++){
             if(questionList.get(i).equals(q)){

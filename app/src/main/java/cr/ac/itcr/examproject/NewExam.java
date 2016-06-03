@@ -24,15 +24,6 @@ import exams.Exam;
  * create an instance of this fragment.
  */
 public class NewExam extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
 
     //Attributes of the class
     private Button btnAddExam;
@@ -46,38 +37,16 @@ public class NewExam extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NewExam.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static NewExam newInstance(String param1, String param2) {
-        NewExam fragment = new NewExam();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_new_exam, container, false);
+        View v = inflater.inflate(R.layout.fragment_exam_new, container, false);
         btnAddExam = (Button) v.findViewById(R.id.btnCreate);
         examAuthor = (EditText)v.findViewById(R.id.txtAuthor);
         examName = (EditText)v.findViewById(R.id.txtExamName);

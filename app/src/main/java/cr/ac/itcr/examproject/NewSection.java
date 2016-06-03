@@ -1,5 +1,6 @@
 package cr.ac.itcr.examproject;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,64 +8,62 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import access_data.SectionRepository;
+import sections.Section;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SectionsFragment.OnFragmentInteractionListener} interface
+ * {@link NewSection.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SectionsFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
-public class SectionsFragment extends Fragment{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class NewSection extends Fragment {
+    private EditText txtName;
+    private EditText txtDescription;
+    private Button btnCreateSection;
+    private int examIndex;
+    private SectionRepository section_repo;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public SectionsFragment() {
+    public NewSection() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SectionsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SectionsFragment newInstance(String param1, String param2) {
-        SectionsFragment fragment = new SectionsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle b = getArguments();
+        examIndex = b.getInt("examIndex");
+        section_repo = new SectionRepository(getContext().getApplicationContext());
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sections, container, false);
+        View v = inflater.inflate(R.layout.fragment_section_new, container, false);
+        txtDescription = (EditText)v.findViewById(R.id.txtDescription);
+        txtName = (EditText)v.findViewById(R.id.txtSectionName);
+        btnCreateSection = (Button)v.findViewById(R.id.btnCreateSection);
+        btnCreateSection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //On button click here
+                if(txtName.getText().toString() != "" && txtDescription.getText().toString()!=""){
+                    section_repo.Save(new Section(txtName.getText().toString(),txtDescription.getText().toString(),examIndex));
+                    new AlertDialog.Builder(getContext()).setTitle("Success").setMessage("Section has been created ").setIcon(android.R.drawable.ic_dialog_alert).show();
+
+                }
+            }
+        });
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,7 +89,6 @@ public class SectionsFragment extends Fragment{
         super.onDetach();
         mListener = null;
     }
-
 
     /**
      * This interface must be implemented by activities that contain this

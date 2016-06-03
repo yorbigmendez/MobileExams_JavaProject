@@ -1,13 +1,11 @@
 package cr.ac.itcr.examproject;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,7 +32,8 @@ public class ExamManagementDrawer extends AppCompatActivity
         ExamDetailFragment.OnFragmentInteractionListener,
         ExamListFragment.OnFragmentInteractionListener,
         NewExam.OnFragmentInteractionListener,
-        SectionsFragment.OnFragmentInteractionListener
+        SectionsListFragment.OnFragmentInteractionListener,
+        NewSection.OnFragmentInteractionListener
 {
     private int exam_pos;
     private ArrayList<Exam> examList;
@@ -103,18 +102,17 @@ public class ExamManagementDrawer extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
+        //noinspection SimplifiableIfyoutuStatement
         if (id == R.id.menuDelete) {
             return true;
         }
         if (id == R.id.menuAdd) {
-            return true;
+            return false;
         }
         if (id == R.id.menuSettings) {
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     /**
@@ -128,15 +126,15 @@ public class ExamManagementDrawer extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.menu_add_exam) {
             Fragment fragment = new NewExam();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_dashboard, fragment).commit();
 
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.menu_evaluate_exam) {
             Fragment fragment = new ExamListFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_dashboard, fragment).commit();
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.menu_sign_out) {
             super.onBackPressed();
         }
 

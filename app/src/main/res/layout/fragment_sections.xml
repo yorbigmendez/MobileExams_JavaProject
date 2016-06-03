@@ -2,12 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cr.ac.itcr.examproject.SectionsFragment">
+    tools:context=".SectionsListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="HI THIS IS THE SECTIONS FRAGMENT, WELL DONE" />
+        android:id="@+id/listViewSections"
+        android:background="#FFFFFF">
+
+    </ListView>
 
 </FrameLayout>
