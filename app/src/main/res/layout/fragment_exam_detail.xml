@@ -1,0 +1,98 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExamDetailFragment">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="5dp"
+                android:text="Exam Name: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+            <EditText
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="5dp"
+                android:width="200dp"
+                android:hint="Exam #1"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:editable="false"
+                android:layout_span="2"/>
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="5dp"
+                android:text="Created by: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+            <EditText
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="5dp"
+                android:width="200dp"
+                android:hint="Author #1"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:editable="false"
+                android:layout_span="2"/>
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="5dp"
+                android:text="Total Points"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+            <EditText
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="5dp"
+                android:width="200dp"
+                android:textAlignment="center"
+                android:hint="Points here"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:editable="false"
+                android:layout_span="2"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            >
+
+            <Button
+                android:text="Points"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+            <Button
+                android:layout_marginLeft="5dp"
+                android:textAlignment="center"
+                android:text="here"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:editable="false"/>
+
+            <Button
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:text="Points"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+        </TableRow>
+    </TableLayout>
+
+</FrameLayout>
