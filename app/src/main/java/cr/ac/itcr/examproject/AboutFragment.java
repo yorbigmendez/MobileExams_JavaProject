@@ -1,6 +1,5 @@
 package cr.ac.itcr.examproject;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,30 +7,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-
-import access_data.SectionRepository;
-import sections.Section;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NewSection.OnFragmentInteractionListener} interface
+ * {@link AboutFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class NewSection extends Fragment {
-    private EditText txtName;
-    private EditText txtDescription;
-    private Button btnCreateSection;
-    private int examIndex;
-    private SectionRepository section_repo;
-
+public class AboutFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public NewSection() {
+    public AboutFragment() {
         // Required empty public constructor
     }
 
@@ -44,27 +32,8 @@ public class NewSection extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("New Section");
-        Bundle b = getArguments();
-        examIndex = b.getInt("examIndex");
-        section_repo = new SectionRepository(getContext().getApplicationContext());
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_section_new, container, false);
-        txtDescription = (EditText)v.findViewById(R.id.txtDescription);
-        txtName = (EditText)v.findViewById(R.id.txtSectionName);
-        btnCreateSection = (Button)v.findViewById(R.id.btnCreateSection);
-        btnCreateSection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //On button click here
-                if(!txtName.getText().toString().equals("") && !txtName.getText().toString().equals("Section Name") && !txtDescription.getText().toString().equals("") && !txtDescription.getText().toString().equals("Section Description")){
-                    section_repo.Save(new Section(txtName.getText().toString(),txtDescription.getText().toString(),examIndex));
-                    new AlertDialog.Builder(getContext()).setTitle("Success").setMessage("Section has been created ").setIcon(android.R.drawable.ic_dialog_alert).show();
-                }else{
-                    new AlertDialog.Builder(getContext()).setTitle("Holy Guacamole!").setMessage("All the fields must be filled.").setIcon(android.R.drawable.ic_dialog_alert).show();
-                }
-            }
-        });
+        View v =  inflater.inflate(R.layout.fragment_about, container, false);
         return v;
     }
 

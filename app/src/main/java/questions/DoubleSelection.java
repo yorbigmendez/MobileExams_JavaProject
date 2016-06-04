@@ -12,6 +12,7 @@ public class DoubleSelection implements Question {
     private String opc4;
     private String answer1;
     private String answer2;
+    private int id_section;
 
     /**
      *
@@ -24,7 +25,7 @@ public class DoubleSelection implements Question {
      * @param answer1 String: One of the correct answers
      * @param answer2 String: One of the correct answers
      */
-    public DoubleSelection(int id_question, String question,String opc1, String opc2, String opc3, String opc4, String answer1, String answer2){
+    public DoubleSelection(int id_question, String question,String opc1, String opc2, String opc3, String opc4, String answer1, String answer2, int id_section){
         this.question = question;
         this.opc1 = opc1;
         this.opc2 = opc2;
@@ -32,6 +33,79 @@ public class DoubleSelection implements Question {
         this.opc4 = opc4;
         this.answer1 = answer1;
         this.answer2 = answer2;
+        this.id_section = id_section;
+    }
+
+    public int getId_section() {
+        return id_section;
+    }
+
+    public void setId_section(int id_section) {
+        this.id_section = id_section;
+    }
+
+    public int getId_question() {
+        return id_question;
+    }
+
+    public void setId_question(int id_question) {
+        this.id_question = id_question;
+    }
+
+    public String getAnswer2() {
+        return answer2;
+    }
+
+    public void setAnswer2(String answer2) {
+        this.answer2 = answer2;
+    }
+
+    public String getAnswer1() {
+        return answer1;
+    }
+
+    public void setAnswer1(String answer1) {
+        this.answer1 = answer1;
+    }
+
+    public String getOpc4() {
+        return opc4;
+    }
+
+    public void setOpc4(String opc4) {
+        this.opc4 = opc4;
+    }
+
+    public String getOpc3() {
+        return opc3;
+    }
+
+    public void setOpc3(String opc3) {
+        this.opc3 = opc3;
+    }
+
+    public String getOpc2() {
+        return opc2;
+    }
+
+    public void setOpc2(String opc2) {
+        this.opc2 = opc2;
+    }
+
+    public String getOpc1() {
+        return opc1;
+    }
+
+    public void setOpc1(String opc1) {
+        this.opc1 = opc1;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
     /**

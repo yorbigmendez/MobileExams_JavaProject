@@ -1,6 +1,8 @@
 package cr.ac.itcr.examproject;
 
 import android.app.AlertDialog;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,47 +17,51 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import java.util.ArrayList;
-
 import access_data.ExamRepository;
-import exams.Exam;
+import access_data.SectionRepository;
+import sections.Section;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ExamDetailFragment.OnFragmentInteractionListener} interface
+ * {@link SectionDetailFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * create an instance of this fragment.
  */
-public class ExamDetailFragment extends Fragment implements View.OnClickListener{
-    private ExamRepository exam_repo;
-    private ArrayList<Exam> exam_list;
-    private Exam actual_exam;
-    private EditText examName;
-    private EditText examAuthor;
-    private EditText examPoints;
+public class SectionDetailFragment extends Fragment implements View.OnClickListener {
+    private Section actual_section;
+    private SectionRepository section_repo;
+    private EditText sectionName;
+    private EditText sectionDescription;
     private ImageButton btnDelete;
     private ImageButton btnEdit;
-    private ImageButton btnSection;
     private ImageButton btnSave;
+    private ImageButton btnQuestion;
     private KeyListener variable;//Save the keyListener of the edit text, here is true
 
-    public ExamDetailFragment() {
+    private OnFragmentInteractionListener mListener;
+
+    public SectionDetailFragment() {
         // Required empty public constructor
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("Examen Detail");
-        View v = inflater.inflate(R.layout.fragment_exam_detail, container, false);
+        getActivity().setTitle("Section Detail");
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_section_detail, container, false);
         //Link the widgets
-        examName = (EditText) v.findViewById(R.id.txtExamName);
-        examAuthor = (EditText) v.findViewById(R.id.txtExamAuthor);
-        examPoints = (EditText) v.findViewById(R.id.txtExamPoints);
-        btnSection = (ImageButton) v.findViewById(R.id.btnSection);
-        btnSection.setOnClickListener(this);
+        sectionName = (EditText) v.findViewById(R.id.txtSectionName);
+        sectionDescription = (EditText) v.findViewById(R.id.txtSectionDescription);
+        btnQuestion = (ImageButton) v.findViewById(R.id.btnQuestion);
+        btnQuestion.setOnClickListener(this);
         btnSave = (ImageButton)v.findViewById(R.id.btnSave);
         btnSave.setOnClickListener(this);
         btnDelete = (ImageButton) v.findViewById(R.id.btnDelete);
@@ -63,19 +69,16 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
         btnEdit = (ImageButton) v.findViewById(R.id.btnSettings);
         btnEdit.setOnClickListener(this);
         //Get repo
-        exam_repo = new ExamRepository(getContext().getApplicationContext());
+        section_repo = new SectionRepository(getContext().getApplicationContext());
         Bundle b = getArguments();
         //Get the exam and save it as actual exam
-        actual_exam = exam_repo.GetAll(0).get(b.getInt("examIndex"));
+        actual_section = section_repo.GetAll(0).get(b.getInt("sectionIndex"));
         // Set the text fields
-        examName.setText(actual_exam.getName());
-        examAuthor.setText(actual_exam.getAuthor());
-        examPoints.setText(String.valueOf(actual_exam.getPoints()));
-        variable = examName.getKeyListener();
-
+        sectionName.setText(actual_section.getName());
+        sectionDescription.setText(actual_section.getDescription());
+        variable = sectionName.getKeyListener();
         return v;
     }
-
 
     @Override
     public void onClick(View v){
@@ -83,27 +86,26 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
         switch (v.getId()){
             case R.id.btnSettings:
                 //0 is visible
-                manageEditTexts(examAuthor, 1);//Set editable
-                manageEditTexts(examName, 1);
-                manageEditTexts(examPoints, 1);
+                manageEditTexts(sectionDescription, 1);//Set editable
+                manageEditTexts(sectionName, 1);
                 btnSave.setVisibility(View.VISIBLE);
-                btnSection.setVisibility(View.INVISIBLE);
+                btnQuestion.setVisibility(View.INVISIBLE);
                 btnEdit.setVisibility(View.INVISIBLE);
                 break;
             case R.id.btnDelete:
                 showDeleteAlert();
                 break;
 
-            case R.id.btnSection:
+            case R.id.btnQuestion:
                 //Fragment manager to manage a fragment transaction
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 //Fragment to replace
-                Fragment f = new SectionsListFragment();
+                Fragment f = new QuestionListFragment();
                 //Prepare bundle to send info the the other fragment
                 Bundle bundle = new Bundle();
                 //Send the position of the list item that has been selected
-                bundle.putInt("examIndex", actual_exam.getId());
+                bundle.putInt("sectionIndex", actual_section.getId_section());
                 f.setArguments(bundle);
                 transaction.replace(R.id.content_dashboard, f);
                 //On back then go back to ExamListFragment
@@ -114,23 +116,22 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
             case R.id.btnSave:
                 //Exam to edit
                 //Get the edited data
-                actual_exam.setAuthor(examAuthor.getText().toString());
-                actual_exam.setPoints(Float.parseFloat(examPoints.getText().toString()));
-                actual_exam.setName(examName.getText().toString());
+                actual_section.setName(sectionName.getText().toString());
+                actual_section.setName(sectionDescription.getText().toString());
                 //Update the database
-                exam_repo.Update(actual_exam);
+                section_repo.Update(actual_section);
 
-                manageEditTexts(examAuthor, 2);//Set non editable
-                manageEditTexts(examName,2);
-                manageEditTexts(examPoints, 2);
+                manageEditTexts(sectionName, 2);//Set non editable
+                manageEditTexts(sectionDescription,2);
 
                 btnEdit.setVisibility(View.VISIBLE);
-                btnSection.setVisibility(View.VISIBLE);
+                btnQuestion.setVisibility(View.VISIBLE);
                 btnSave.setVisibility(View.INVISIBLE);
                 break;
 
         }
     }
+
     public void manageEditTexts(EditText edit,int action){
 
         switch (action) {
@@ -143,31 +144,50 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
                 break;
         }
     }
+
     public void showDeleteAlert(){
-        Log.e("ALert Dialog","This is going to test");
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        Log.e("Set Title","This is going to test");
-        alertDialog.setTitle("Delete exam");
-        Log.e("Set Message", "This is going to test");
-        alertDialog.setMessage("Are you sure you want to delete this exam with all its sections questions?");
+        alertDialog.setTitle("Delete section");
+        alertDialog.setMessage("Are you sure you want to delete this section and questions?");
         Log.e("Set Buttons", "This is going to test");
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 //Delete the exam
-                exam_repo.Delete(actual_exam);
+                section_repo.Delete(actual_section);
                 getActivity().onBackPressed();
             }
         });
-        Log.e("Set Butons 2", "This is going to test");
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
-        Log.e("Dialog show it", "This is going to test");
         // Showing Alert Message
         alertDialog.show();
-        Log.e("SHOWED ITTT", "This is going to test");
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
 

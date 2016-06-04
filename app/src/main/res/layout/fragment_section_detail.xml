@@ -2,9 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExamDetailFragment"
-    android:background="#FFFFFF"
-    >
+    tools:context="cr.ac.itcr.examproject.SectionDetailFragment">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -16,7 +15,7 @@
             android:textAlignment="center"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Exam Information"
+            android:text="Section Information"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
         <TableLayout
             android:layout_width="match_parent"
@@ -29,14 +28,14 @@
                 <TextView
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="5dp"
-                    android:text="Exam Name: "
+                    android:text="Section Name: "
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
                 <EditText
-                    android:id="@+id/txtExamName"
+                    android:id="@+id/txtSectionName"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="5dp"
                     android:width="200dp"
-                    android:hint="Exam #1"
+                    android:hint="Section #1"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
@@ -49,14 +48,14 @@
                 <TextView
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="5dp"
-                    android:text="Created by: "
+                    android:text="Description: "
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
                 <EditText
                     android:layout_marginTop="5dp"
-                    android:id="@+id/txtExamAuthor"
+                    android:id="@+id/txtSectionDescription"
                     android:layout_marginLeft="5dp"
                     android:width="200dp"
-                    android:hint="Author #1"
+                    android:hint="My Description"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
@@ -98,15 +97,15 @@
                 android:background="#FFFFFF"
                 android:onClick="ButtonOnClick"/>
             <ImageButton
-                android:id="@+id/btnQuestion"
-                android:src="@drawable/icon_question"
+                android:id="@+id/btnSection"
+                android:src="@drawable/icon_list_section"
                 android:layout_marginLeft="20dp"
                 android:textAlignment="center"
                 android:background="#FFFFFF"
                 android:onClick="ButtonOnClick"/>
 
             <ImageButton
-                android:id="@+id/btDelete"
+                android:id="@+id/btnDelete"
                 android:src="@drawable/icon_delete"
                 android:layout_marginLeft="20dp"
                 android:background="#FFFFFF"

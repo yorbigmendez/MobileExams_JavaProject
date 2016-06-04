@@ -1,15 +1,15 @@
 package cr.ac.itcr.examproject;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,56 +17,70 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import access_data.ExamRepository;
-import adapter.AdapterExam;
-import exams.Exam;
+import access_data.DoubleSelectionRepository;
+import access_data.SingleSelectionRepository;
+import access_data.TrueFalseRepository;
+import adapter.AdapterQuestion;
+import questions.Question;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ExamListFragment.OnFragmentInteractionListener} interface
+ * {@link QuestionListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class ExamListFragment extends Fragment {
-    private ListView listViewExams;
-    private static AdapterExam adapter;
-    private ExamRepository repository;
-
+public class QuestionListFragment extends Fragment {
+    private ArrayList<Question> questionList;
+    private int sectionIndex;
+    private AdapterQuestion adapter;
+    private DoubleSelectionRepository doubleSelectRepo;
+    private SingleSelectionRepository singleSelectRepo;
+    private TrueFalseRepository trueFalseRepo;
+    private ListView listViewQuestion;
 
     private OnFragmentInteractionListener mListener;
 
-    public ExamListFragment() {
+    public QuestionListFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("Exams");
+        getActivity().setTitle("Questions");
         setHasOptionsMenu(true);
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_exams, container, false);
-        listViewExams = (ListView)v.findViewById(R.id.listViewExams);
-        listViewExams.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        View v =  inflater.inflate(R.layout.fragment_question_list, container, false);
+        questionList = new ArrayList<>();
+        Bundle b = getArguments();
+        sectionIndex = b.getInt("sectionIndex");
+        questionList.addAll(new DoubleSelectionRepository(getContext().getApplicationContext()).GetAll(sectionIndex));
+        questionList.addAll(new SingleSelectionRepository(getContext().getApplicationContext()).GetAll(sectionIndex));
+        questionList.addAll(new TrueFalseRepository(getContext().getApplicationContext()).GetAll(sectionIndex));
+        listViewQuestion = (ListView)v.findViewById(R.id.listViewQuestions);
+        adapter = new AdapterQuestion(getContext().getApplicationContext(),questionList);
+        listViewQuestion.setAdapter(adapter);
+        listViewQuestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Item on Clicke action here
                 //Fragment manager to manage a fragment transaction
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
+
                 //Fragment to replace
-                Fragment f = new ExamDetailFragment();
+                Fragment f = getQuestionFragment(position);
                 //Prepare bundle to send info the the other fragment
                 Bundle bundle = new Bundle();
                 //Send the position of the list item that has been selected
-                bundle.putInt("examIndex",position);
+                bundle.putInt("questionIndex",position);
                 f.setArguments(bundle);
                 transaction.replace(R.id.content_dashboard, f);
                 //On back then go back to ExamListFragment
@@ -76,14 +90,20 @@ public class ExamListFragment extends Fragment {
             }
         });
 
-        repository = new ExamRepository(getContext().getApplicationContext());
-        ArrayList<Exam> e = repository.GetAll(0);
-        //Empty list of exams
-        if(e.isEmpty())
-            showEmptyDialog();
-        adapter = new AdapterExam(getActivity().getApplicationContext(),repository.GetAll(0));
-        listViewExams.setAdapter(adapter);
         return v;
+    }
+
+    public Fragment getQuestionFragment(int pos){
+        Question q = questionList.get(pos);
+        switch (q.getClass().getName()){
+            case "SingleSelection":
+                return new SingleSelectionDetailFragment();
+            case "DoubleSelection":
+                return new DoubleSelectionDetailFragment();
+            case "TrueFalse":
+                return new TrueFalseDetailFragment();
+        }
+        return null;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,35 +112,40 @@ public class ExamListFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Auto-generated method stub
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_section_fragment, menu);
+    }
 
-    public void showEmptyDialog(){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setTitle("No exams");
-        alertDialog.setMessage("There are no exams created, would you like to create one?");
-        Log.e("Set Buttons", "This is going to test");
-        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                //Delete the exam
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.menuAdd:
                 //Fragment manager to manage a fragment transaction
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                //Fragment to replace
-                Fragment f = new NewExam();
+                //Fragment to replaces
+                Bundle bundle = new Bundle();
+                //Send the position of the list item that has been selected
+                bundle.putInt("sectionIndex", sectionIndex);
+                Fragment f = new NewQuestion();
+                f.setArguments(bundle);
                 transaction.replace(R.id.content_dashboard, f);
                 //On back then go back to ExamListFragment
                 transaction.addToBackStack(null);
                 //Commit transaction
                 transaction.commit();
-            }
-        });
-        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        // Showing Alert Message
-        alertDialog.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -139,7 +164,6 @@ public class ExamListFragment extends Fragment {
         mListener = null;
     }
 
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -154,6 +178,4 @@ public class ExamListFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 }

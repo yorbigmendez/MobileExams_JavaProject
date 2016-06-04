@@ -20,8 +20,6 @@ import exams.Exam;
  * Activities that contain this fragment must implement the
  * {@link NewExam.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NewExam#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class NewExam extends Fragment {
 
@@ -45,6 +43,7 @@ public class NewExam extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle("New Exam");
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_exam_new, container, false);
         btnAddExam = (Button) v.findViewById(R.id.btnCreate);
@@ -56,11 +55,17 @@ public class NewExam extends Fragment {
             @Override
             public void onClick(View v) {
                 //Action to do when on click happens
-                if (examAuthor.getText().toString() != "" && examName.getText().toString() != "" && examPoints.getText().toString() != "") {
+                if (!examAuthor.getText().toString().equals("") && !examAuthor.getText().toString().equals("Exam´s Name") && !examName.getText().toString().equals("") && !examName.getText().toString().equals("Author´s Name") && !examPoints.getText().toString().equals("") && !examPoints.getText().toString().equals("Total Points")) {
                     ExamRepository er = new ExamRepository(getContext().getApplicationContext());
-                    Exam e = captureData();
-                    er.Save(e);
-                    new AlertDialog.Builder(getContext()).setTitle("Success").setMessage("Exam has been created ").setIcon(android.R.drawable.ic_dialog_alert).show();
+                    try {
+                        Exam e = captureData();
+                        er.Save(e);
+                        new AlertDialog.Builder(getContext()).setTitle("Success").setMessage("Exam has been created ").setIcon(android.R.drawable.ic_dialog_alert).show();
+                    }catch(NumberFormatException e){
+                        new AlertDialog.Builder(getContext()).setTitle("Warning").setMessage("Points must be text").setIcon(android.R.drawable.ic_dialog_alert).show();
+                    }
+                }else{
+                    new AlertDialog.Builder(getContext()).setTitle("Warning").setMessage("Empty spaces exist").setIcon(android.R.drawable.ic_dialog_alert).show();
                 }
             }
         });
@@ -68,7 +73,11 @@ public class NewExam extends Fragment {
         return v;
     }
 
-    //Captures the data
+
+    /**
+     * Captures the exams data and creates and Object to be inserted in the database
+     * @return e Exam: The Exam object created
+     */
     public Exam captureData(){
         Exam e = new Exam();
         e.setAuthor(examAuthor.getText().toString());

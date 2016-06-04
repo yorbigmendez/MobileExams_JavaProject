@@ -4,14 +4,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -33,7 +31,10 @@ public class ExamManagementDrawer extends AppCompatActivity
         ExamListFragment.OnFragmentInteractionListener,
         NewExam.OnFragmentInteractionListener,
         SectionsListFragment.OnFragmentInteractionListener,
-        NewSection.OnFragmentInteractionListener
+        NewSection.OnFragmentInteractionListener,
+        AboutFragment.OnFragmentInteractionListener,
+        SectionDetailFragment.OnFragmentInteractionListener,
+        SingleSelectionDetailFragment.OnFragmentInteractionListener
 {
     private int exam_pos;
     private ArrayList<Exam> examList;
@@ -54,6 +55,7 @@ public class ExamManagementDrawer extends AppCompatActivity
         setContentView(R.layout.activity_exam_management_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.setTitle("About");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -63,6 +65,9 @@ public class ExamManagementDrawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.content_dashboard, new AboutFragment());
+        tx.commit();
     }
 
     /**

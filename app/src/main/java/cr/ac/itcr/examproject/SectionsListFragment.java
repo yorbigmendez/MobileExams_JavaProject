@@ -54,6 +54,8 @@ public class SectionsListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        getActivity().setTitle("Exam Sections");
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         View v =  inflater.inflate(R.layout.fragment_sections, container, false);
@@ -68,7 +70,21 @@ public class SectionsListFragment extends Fragment{
         listViewSections.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                //Fragment manager to manage a fragment transaction
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                //Fragment to replace
+                Fragment f = new SectionDetailFragment();
+                //Prepare bundle to send info the the other fragment
+                Bundle bundle = new Bundle();
+                //Send the position of the list item that has been selected
+                bundle.putInt("sectionIndex",position);
+                f.setArguments(bundle);
+                transaction.replace(R.id.content_dashboard, f);
+                //On back then go back to ExamListFragment
+                transaction.addToBackStack(null);
+                //Commit transaction
+                transaction.commit();
             }
         });
 
@@ -82,30 +98,7 @@ public class SectionsListFragment extends Fragment{
         inflater.inflate(R.menu.menu_section_fragment, menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // handle item selection
-        switch (item.getItemId()) {
-            case R.id.menuAdd:
-                //Fragment manager to manage a fragment transaction
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                //Fragment to replaces
-                Bundle bundle = new Bundle();
-                //Send the position of the list item that has been selected
-                bundle.putInt("examIndex", examIndex);
-                Fragment f = new NewSection();
-                f.setArguments(bundle);
-                transaction.replace(R.id.content_dashboard, f);
-                //On back then go back to ExamListFragment
-                transaction.addToBackStack(null);
-                //Commit transaction
-                transaction.commit();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
 
     /**
      * This interface must be implemented by activities that contain this

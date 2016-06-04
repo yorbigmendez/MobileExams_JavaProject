@@ -9,7 +9,7 @@ import android.util.Log;
  * Created by Mendez Soto on 5/26/2016.
  */
 public class DBConnection extends SQLiteOpenHelper {
-    private static final int VERSION_BD = 1;
+    private static final int VERSION_BD = 2;
     private static final String NAME_BD = "examdb";
 
     /**
@@ -32,20 +32,18 @@ public class DBConnection extends SQLiteOpenHelper {
             StringBuilder sql = new StringBuilder();
             String sqlCreateExam = "CREATE TABLE IF NOT EXISTS Exam (id INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(100), points INTEGER, author CHAR(100), grade REAL)";
             String sqlCreateSection = "CREATE TABLE IF NOT EXISTS Section (id INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(100), description CHAR(100), id_exam INTEGER)";
-            String sqlCreateQuestionXSelection = "CREATE TABLE IF NOT EXISTS QuestionsXSection (id INTEGER PRIMARY KEY AUTOINCREMENT, id_section INTEGER, id_question INTEGER)";
-            String sqlCreateTrueFlase = "CREATE TABLE IF NOT EXISTS TrueFalse (id INTEGER PRIMARY KEY AUTOINCREMENT, question CHAR(100), number INTEGER, answer CHAR(100))";
-            String sqlCreateSingleSelection = "CREATE TABLE IF NOT EXISTS DoubleSelection (id INTEGER PRIMARY KEY AUTOINCREMENT, question CHAR(100), number INTEGER, option1 CHAR(100), option2 CHAR(100), option3 CHAR(100), option4 CHAR(100), answer1 CHAR(100), answer2 CHAR(100))";
-            String sqlCreateDoubleSelection = "CREATE TABLE IF NOT EXISTS SingleSelection (id INTEGER PRIMARY KEY AUTOINCREMENT, question CHAR(100), number INTEGER, option1 CHAR(100), option2 CHAR(100), option3 CHAR(100), option4 CHAR(100), answer CHAR(100))";
+            String sqlCreateTrueFlase = "CREATE TABLE IF NOT EXISTS TrueFalse (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "question CHAR(100), answer CHAR(100),id_section INTEGER)";
+            String sqlCreateSingleSelection = "CREATE TABLE IF NOT EXISTS DoubleSelection (id INTEGER PRIMARY KEY AUTOINCREMENT, question CHAR(100), option1 CHAR(100)," +
+                    " option2 CHAR(100), option3 CHAR(100), option4 CHAR(100), answer1 CHAR(100), answer2 CHAR(100), id_section INTEGER)";
+            String sqlCreateDoubleSelection = "CREATE TABLE IF NOT EXISTS SingleSelection (id INTEGER PRIMARY KEY AUTOINCREMENT, question CHAR(100), option1 CHAR(100), " +
+                    "option2 CHAR(100), option3 CHAR(100), option4 CHAR(100), answer CHAR(100), id_section INTEGER)";
 
             sql.append(sqlCreateExam);
             db.execSQL(sql.toString());
 
             sql = new StringBuilder();
             sql.append(sqlCreateSection);
-            db.execSQL(sql.toString());
-
-            sql = new StringBuilder();
-            sql.append(sqlCreateQuestionXSelection);
             db.execSQL(sql.toString());
 
             sql = new StringBuilder();
@@ -86,33 +84,5 @@ public class DBConnection extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        /*StringBuilder sql = new StringBuilder();
-        String sqlDropExam= "DROP TABLE IF EXISTS Exam";
-        String sqlDropQuestion= "DROP TABLE IF EXISTS Question";
-        String sqlDropSection  = "DROP TABLE IF EXISTS Section";
-        String sqlDropQuestionSection = "DROP TABLE IF EXISTS QuestionsXSection";
-        String sqlDropTrueFalse = "DROP TABLE IF EXISTS TrueFalse";
-        String sqlDropSingleSelection = "DROP TABLE IF EXISTS SingleSelectionRepository";
-        String sqlDropDoubleSelection = "DROP TABLE IF EXISTS DoubleSelection";
-
-        sql.append(sqlDropExam);
-        sql.append(sqlDropDoubleSelection);
-        sql.append(sqlDropQuestion);
-        sql.append(sqlDropSection);
-        sql.append(sqlDropQuestionSection);
-        sql.append(sqlDropTrueFalse);
-        sql.append(sqlDropSingleSelection);
-
-        db.execSQL(sql.toString());
-
-        String sqlCreateTables = "CREATE TABLE IF NOT EXISTS Exam (id INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(100), points INTEGER, author CHAR(100))" +
-                "CREATE TABLE IF NOT EXISTS Section (id INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(100), description CHAR(100), id_exam INTEGER)" +
-                "CREATE TABLE IF NOT EXISTS QuestionsXSection (id INTEGER PRIMARY KEY AUTOINCREMENT, id_section INTEGER, id_question INTEGER)"  +
-                "CREATE TABLE IF NOT EXISTS Question (id INTEGER PRIMARY KEY AUTOINCREMENT, question CHAR(100), number INTEGER)"+
-                "CREATE TABLE IF NOT EXISTS TrueFalse (answer CHAR(100), id_question INTEGER)"+
-                "CREATE TABLE IF NOT EXISTS DoubleSelection (option1 CHAR(100), option2 CHAR(100), option3 CHAR(100), option4 CHAR(100), answer1 CHAR(100), answer2 CHAR(100), id_question INTEGER)" +
-                "CREATE TABLE IF NOT EXISTS SingleSelectionRepository (option1 CHAR(100), option2 CHAR(100), option3 CHAR(100), option4 CHAR(100), answer CHAR(100), id_question INTEGER)";
-        sql.append(sqlCreateTables);
-        db.execSQL(sql.toString());*/
     }
 }

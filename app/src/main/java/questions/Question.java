@@ -4,6 +4,7 @@ package questions;
  * Interface that is used to define the schema that the questions will have on the project.
  */
 public interface Question {
+    public String getQuestion();
     /**
      * Used to insert the questions information
      */
