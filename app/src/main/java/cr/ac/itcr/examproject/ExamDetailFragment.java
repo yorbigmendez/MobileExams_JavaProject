@@ -113,58 +113,6 @@ public class ExamDetailFragment extends Fragment{
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
-        });
-        btnDelete = (ImageButton) v.findViewById(R.id.btnDelete);
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        btnEdit = (ImageButton) v.findViewById(R.id.btnSettings);
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        //Get repo
-        exam_repo = new ExamRepository(getContext().getApplicationContext());
-        Bundle b = getArguments();
-        //Get the exam and save it as actual exam
-        actual_exam = exam_repo.GetAll(0).get(b.getInt("examIndex"));
-        // Set the text fields
-        examName.setText(actual_exam.getName());
-        examAuthor.setText(actual_exam.getAuthor());
-        examPoints.setText(String.valueOf(actual_exam.getPoints()));
-        variable = examName.getKeyListener();
-        return v;
-    }
-
-    /**
-     * Manages the button click events
-     * @param v Button clicked
-     */
-    public void onClick(View v){
-        // implements your things
-        switch (v.getId()){
-            case R.id.btnSettings:
-                //0 is visible
-                manageEditTexts(examAuthor, 1);//Set editable
-                manageEditTexts(examName, 1);
-                manageEditTexts(examPoints, 1);
-                btnSave.setVisibility(View.VISIBLE);
-                btnSection.setVisibility(View.INVISIBLE);
-                btnEdit.setVisibility(View.INVISIBLE);
-                break;
-            case R.id.btnDelete:
-                showDeleteAlert();
-                break;
-            case R.id.btnSection:
-                break;
-            case R.id.btnSave:
                 //Exam to edit
                 //Get the edited data
                 actual_exam.setAuthor(examAuthor.getText().toString());
@@ -180,11 +128,40 @@ public class ExamDetailFragment extends Fragment{
                 btnEdit.setVisibility(View.VISIBLE);
                 btnSection.setVisibility(View.VISIBLE);
                 btnSave.setVisibility(View.INVISIBLE);
-                break;
-
-        }
+            }
+        });
+        btnDelete = (ImageButton) v.findViewById(R.id.btnDelete);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteAlert();
+            }
+        });
+        btnEdit = (ImageButton) v.findViewById(R.id.btnSettings);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //0 is visible
+                manageEditTexts(examAuthor, 1);//Set editable
+                manageEditTexts(examName, 1);
+                manageEditTexts(examPoints, 1);
+                btnSave.setVisibility(View.VISIBLE);
+                btnSection.setVisibility(View.INVISIBLE);
+                btnEdit.setVisibility(View.INVISIBLE);
+            }
+        });
+        //Get repo
+        exam_repo = new ExamRepository(getContext().getApplicationContext());
+        Bundle b = getArguments();
+        //Get the exam and save it as actual exam
+        actual_exam = exam_repo.GetAll(0).get(b.getInt("examIndex"));
+        // Set the text fields
+        examName.setText(actual_exam.getName());
+        examAuthor.setText(actual_exam.getAuthor());
+        examPoints.setText(String.valueOf(actual_exam.getPoints()));
+        variable = examName.getKeyListener();
+        return v;
     }
-
     /**
      * Manages the editTexts, sets editable and what not
      * @param edit Edit text to editt

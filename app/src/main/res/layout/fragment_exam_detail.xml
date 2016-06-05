@@ -118,7 +118,7 @@
                 android:clickable="true"/>
             <ImageButton
                 android:id="@+id/btnSection"
-                android:src="@drawable/icon_question"
+                android:src="@drawable/icon_list_section"
                 android:layout_marginLeft="20dp"
                 android:textAlignment="center"
                 android:background="#FFFFFF"
@@ -127,9 +127,9 @@
             <ImageButton
                 android:id="@+id/btnDelete"
                 android:src="@drawable/icon_delete"
-                android:layout_marginLeft="20dp"
                 android:background="#FFFFFF"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:paddingRight="10dp"/>
 
         </TableRow>
         <TableRow
@@ -145,32 +145,16 @@
             <TextView
                 android:layout_marginLeft="20dp"
                 android:textAlignment="center"
-                android:text="Question List"
+                android:text="Section List"
                 android:background="#FFFFFF"/>
 
             <TextView
                 android:layout_marginLeft="20dp"
-                android:text="Delete Section"
+                android:text="Delete Exam"
                 android:background="#FFFFFF"/>
 
         </TableRow>
 
-        <TableRow
-            android:paddingLeft="50dp"
-            android:paddingRight="60dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            >
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Evaluate this Exam"
-                android:layout_span="3"
-                android:onClick="ButtonOnClick"
-                />
-        </TableRow>
     </TableLayout>
 
 </FrameLayout>

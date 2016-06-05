@@ -96,7 +96,7 @@
                 android:background="#FFFFFF"/>
             <ImageButton
                 android:id="@+id/btnQuestion"
-                android:src="@drawable/icon_list_section"
+                android:src="@drawable/icon_question"
                 android:layout_marginLeft="20dp"
                 android:textAlignment="center"
                 android:background="#FFFFFF"/>
