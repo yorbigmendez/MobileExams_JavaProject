@@ -1,12 +1,30 @@
 package questions;
 
+import android.support.v4.app.Fragment;
+
 /**
- * Created by Mendez Soto on 5/26/2016.
+ * Class for True False Questions
+ *
+ * @author Yorbi Méndez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class TrueFalse implements Question {
+    /**
+     * id of the question
+     */
     private int id_question;
+    /**
+     * Question
+     */
     private String question;
+    /**
+     * Answer to question
+     */
     private String answer;
+    /**
+     * id of section question belongs to
+     */
     private int id_section;
 
     /**
@@ -21,6 +39,8 @@ public class TrueFalse implements Question {
         this.answer = answer;
         this.id_section = id_section;
     }
+
+    public TrueFalse(){}
 
     public int getId_question() {
         return id_question;
@@ -55,26 +75,20 @@ public class TrueFalse implements Question {
     }
 
     /**
-     * Used to insert the questions information
-     */
-    @Override
-    public void insertInfo() {
-
-    }
-
-    /**
-     * Used to eliminate the questions information
-     */
-    @Override
-    public void eliminateInfo() {
-
-    }
-
-    /**
      * Evaluates the question
      */
     @Override
     public void evaluateQuestion() {
 
+    }
+
+    /**
+     * Concatenates the question used to demonstrate what the question has and its possible selection, if any.
+     *
+     * @return Concatenates question with its selections
+     */
+    @Override
+    public Fragment showQuestion() {
+        return null;
     }
 }

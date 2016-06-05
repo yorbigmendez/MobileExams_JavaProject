@@ -14,5 +14,4 @@ public interface IRepository<Object> {
 
     public ArrayList<Object> GetAll(int id);
 
-    public ArrayList<Object> GetBy(Object object);
 }

@@ -13,14 +13,33 @@ import questions.SingleSelection;
 import sections.Section;
 
 /**
- * Created by Mendez Soto on 5/26/2016.
+ * Activity for loading layout resources
+ *
+ * This activity is used to display different layout resources for a tutorial on user interface design.
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class SingleSelectionRepository implements IRepository<SingleSelection> {
-
+    /**
+     * Connection to the databse
+     */
     private DBConnection connect;
+
+    /**
+     * Constructor of the class
+     * @param context Context of the application
+     */
     public SingleSelectionRepository(Context context){
         connect = new DBConnection(context);
     }
+
+    /**
+     * Saves a SingleSelection question
+     * @param o Object of single selection
+     * @return False if no errors, True otherwise
+     */
     @Override
     public boolean Save(SingleSelection o) {
         try{
@@ -31,7 +50,7 @@ public class SingleSelectionRepository implements IRepository<SingleSelection> {
                 newData.put("option1",o.getOpc1());
                 newData.put("option2",o.getOpc2());
                 newData.put("option3",o.getOpc3());
-                newData.put("option4",o.getOpc4());
+                newData.put("option4", o.getOpc4());
                 newData.put("answer",o.getAnswer());
                 newData.put("id_section",o.getId_section());
                 db.insert("SingleSelection", null, newData);
@@ -44,6 +63,11 @@ public class SingleSelectionRepository implements IRepository<SingleSelection> {
         return true;
     }
 
+    /**
+     * Updates a SingleSelection object
+     * @param o Object SingleSelection to update
+     * @return Fasle if no erros, true otherwise
+     */
     @Override
     public boolean Update(SingleSelection o) {
         try{
@@ -54,8 +78,8 @@ public class SingleSelectionRepository implements IRepository<SingleSelection> {
                 newData.put("option1",o.getOpc1());
                 newData.put("option2",o.getOpc2());
                 newData.put("option3",o.getOpc3());
-                newData.put("option4",o.getOpc4());
-                newData.put("answer",o.getAnswer());
+                newData.put("option4", o.getOpc4());
+                newData.put("answer", o.getAnswer());
                 newData.put("id_section",o.getId_section());
                 db.update("SingleSelection", newData, "id=?", new String[]{String.valueOf(o.getId_question())});
                 connect.close();
@@ -67,13 +91,18 @@ public class SingleSelectionRepository implements IRepository<SingleSelection> {
         return true;
     }
 
+    /**
+     * Delets a question
+     * @param o SingleSelection to delte
+     * @return False if no errors, true otherwise
+     */
     @Override
     public boolean Delete(SingleSelection o) {
         try{
             SQLiteDatabase db = connect.getWritableDatabase();
             if(db!=null){
                 String[] args = new String[]{String.valueOf(o.getId_question())};
-                db.delete("SingleSelection","id=?",args);
+                db.delete("SingleSelection", "id=?", args);
                 connect.close();
                 return false;//WIthout errors
             }
@@ -83,6 +112,11 @@ public class SingleSelectionRepository implements IRepository<SingleSelection> {
         return false;
     }
 
+    /**
+     * Gets all question of section id
+     * @param id id of the seciton
+     * @return Arraylist of questions
+     */
     @Override
     public ArrayList GetAll(int id) {
         ArrayList<SingleSelection> questions = new ArrayList<>();
@@ -117,8 +151,4 @@ public class SingleSelectionRepository implements IRepository<SingleSelection> {
         return null;
     }
 
-    @Override
-    public ArrayList GetBy(SingleSelection o) {
-        return null;
-    }
 }

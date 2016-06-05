@@ -12,23 +12,41 @@ import questions.DoubleSelection;
 import questions.TrueFalse;
 
 /**
- * Created by Mendez Soto on 5/26/2016.
+ * Manages the TrueFalse question from database
+ *
+ * Access true false table.
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class TrueFalseRepository implements IRepository<TrueFalse> {
-
+    /**
+     * Connection to the database
+     */
     private DBConnection connect;
+
+    /**
+     * Constructor of the class
+     * @param context Context of the application
+     */
     public TrueFalseRepository(Context context){
         connect = new DBConnection(context);
     }
 
 
+    /**
+     * Saves a truefalse quesiton
+     * @param o Object of TrueFalse
+     * @return False if errors, true otherwise
+     */
     @Override
     public boolean Save(TrueFalse o) {
         try{
             SQLiteDatabase db = connect.getWritableDatabase();
             if(db!=null){
                 ContentValues newData = new ContentValues();
-                newData.put("question",o.getQuestion());
+                newData.put("question", o.getQuestion());
                 newData.put("id_section",o.getId_section());
                 newData.put("answer",o.getAnswer());
                 db.insert("TrueFalse", null, newData);
@@ -41,14 +59,19 @@ public class TrueFalseRepository implements IRepository<TrueFalse> {
         return true;
     }
 
+    /**
+     * Updates a TrueFalse question
+     * @param o Object of TruFalse to update
+     * @return False if no errors, true otherwise
+     */
     @Override
     public boolean Update(TrueFalse o) {
         try{
             SQLiteDatabase db = connect.getWritableDatabase();
             if(db!=null){
                 ContentValues newData = new ContentValues();
-                newData.put("question",o.getQuestion());
-                newData.put("id_section",o.getId_section());
+                newData.put("question", o.getQuestion());
+                newData.put("id_section", o.getId_section());
                 newData.put("answer",o.getAnswer());
                 db.update("TrueFalse", newData, "id=?", new String[]{String.valueOf(o.getId_question())});
                 connect.close();
@@ -60,13 +83,18 @@ public class TrueFalseRepository implements IRepository<TrueFalse> {
         return true;
     }
 
+    /**
+     * Deletes a True False question
+     * @param o Object of TrueFalse to delete
+     * @return False if no errors, true otherwise
+     */
     @Override
     public boolean Delete(TrueFalse o) {
         try{
             SQLiteDatabase db = connect.getWritableDatabase();
             if(db!=null){
                 String[] args = new String[]{String.valueOf(o.getId_question())};
-                db.delete("TrueFalse","id=?",args);
+                db.delete("TrueFalse", "id=?", args);
                 connect.close();
                 return false;//WIthout errors
             }
@@ -76,6 +104,11 @@ public class TrueFalseRepository implements IRepository<TrueFalse> {
         return false;
     }
 
+    /**
+     * Gets all the TrueFalse questions from a section
+     * @param id id of the section to get TrueFalse Questions from
+     * @return ArrayList of the TrueFalse questions
+     */
     @Override
     public ArrayList GetAll(int id) {
         ArrayList<TrueFalse> questions = new ArrayList<>();
@@ -106,8 +139,4 @@ public class TrueFalseRepository implements IRepository<TrueFalse> {
         return null;
     }
 
-    @Override
-    public ArrayList GetBy(TrueFalse o) {
-        return null;
-    }
 }

@@ -16,13 +16,31 @@ import exams.Exam;
 import cr.ac.itcr.examproject.R;
 
 /**
- * Created by Mendez Soto on 6/2/2016.
+ * Adapter of the listView of exams
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class AdapterExam extends BaseAdapter {
+    /**
+     * Context of the app
+     */
     private Context context;
+    /**
+     * Infalter used to inflate view
+     */
     private LayoutInflater inflater;
+    /**
+     * Items to inflate
+     */
     private ArrayList<Exam> items;
 
+    /**
+     * Constructor of class
+     * @param context Context of app
+     * @param items items to inflate
+     */
     public AdapterExam(Context context, ArrayList<Exam> items)
     {
         this.context = context;

@@ -80,7 +80,6 @@
                 android:src="@drawable/icon_save"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"
                 android:visibility="invisible"/>
         </TableRow>
         <TableRow
@@ -94,22 +93,19 @@
             <ImageButton
                 android:id="@+id/btnSettings"
                 android:src="@drawable/icon_settings"
-                android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"/>
+                android:background="#FFFFFF"/>
             <ImageButton
-                android:id="@+id/btnSection"
+                android:id="@+id/btnQuestion"
                 android:src="@drawable/icon_list_section"
                 android:layout_marginLeft="20dp"
                 android:textAlignment="center"
-                android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"/>
+                android:background="#FFFFFF"/>
 
             <ImageButton
                 android:id="@+id/btnDelete"
                 android:src="@drawable/icon_delete"
                 android:layout_marginLeft="20dp"
-                android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"/>
+                android:background="#FFFFFF"/>
 
         </TableRow>
         <TableRow
@@ -121,20 +117,17 @@
 
             <TextView
                 android:background="#FFFFFF"
-                android:text="Edit Info"
-                android:onClick="ButtonOnClick"/>
+                android:text="Edit Info"/>
             <TextView
                 android:layout_marginLeft="20dp"
                 android:textAlignment="center"
                 android:text="Question List"
-                android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"/>
+                android:background="#FFFFFF"/>
 
             <TextView
                 android:layout_marginLeft="20dp"
                 android:text="Delete Section"
-                android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"/>
+                android:background="#FFFFFF"/>
 
         </TableRow>
     </TableLayout>

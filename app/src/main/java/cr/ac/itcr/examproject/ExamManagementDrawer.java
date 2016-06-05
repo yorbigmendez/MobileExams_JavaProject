@@ -23,7 +23,12 @@ import access_data.TrueFalseRepository;
 import exams.Exam;
 
 /**
- * The core class of the application, this ExamManagementDrawer is used to display fragments that will add or eliminate questions and exams
+ * Navigation Drawer activity, the father of all fragments
+ *
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class ExamManagementDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -34,16 +39,13 @@ public class ExamManagementDrawer extends AppCompatActivity
         NewSection.OnFragmentInteractionListener,
         AboutFragment.OnFragmentInteractionListener,
         SectionDetailFragment.OnFragmentInteractionListener,
-        SingleSelectionDetailFragment.OnFragmentInteractionListener
+        SingleSelectionFragment.OnFragmentInteractionListener,
+        QuestionListFragment.OnFragmentInteractionListener,
+        NewQuestion.OnFragmentInteractionListener,
+        NewTrueFalse.OnFragmentInteractionListener,
+        NewSingleSelection.OnFragmentInteractionListener,
+        NewDoubleSelection.OnFragmentInteractionListener
 {
-    private int exam_pos;
-    private ArrayList<Exam> examList;
-    private ExamRepository examRepo;
-    private SectionRepository sectionRepo;
-    private SingleSelectionRepository singleSelectionRepo;
-    private DoubleSelectionRepository doubleSelectionRepo;
-    private TrueFalseRepository trueFalseRepo;
-
 
     /**
      * OnCreate links the toolbar, the drawer, the view and any other widgets that will be used in the view.
@@ -114,6 +116,9 @@ public class ExamManagementDrawer extends AppCompatActivity
         if (id == R.id.menuAdd) {
             return false;
         }
+        if (id == R.id.menu_manage_exam) {
+            return true;
+        }
         if (id == R.id.menuSettings) {
             return true;
         }
@@ -136,10 +141,19 @@ public class ExamManagementDrawer extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.content_dashboard, fragment).commit();
 
             // Handle the camera action
-        } else if (id == R.id.menu_evaluate_exam) {
+        }else if(id == R.id.menu_evaluate_exam){
             Fragment fragment = new ExamListFragment();
+            Bundle b = new Bundle();
+            b.putString("action","evaluate");
+            fragment.setArguments(b);
             getSupportFragmentManager().beginTransaction().replace(R.id.content_dashboard, fragment).commit();
-        } else if (id == R.id.menu_sign_out) {
+        }else if (id == R.id.menu_manage_exam) {
+            Bundle b = new Bundle();
+            b.putString("action","manage");
+            Fragment fragment = new ExamListFragment();
+            fragment.setArguments(b);
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_dashboard, fragment).commit();
+        }else if (id == R.id.menu_sign_out) {
             super.onBackPressed();
         }
 

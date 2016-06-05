@@ -14,13 +14,31 @@ import cr.ac.itcr.examproject.R;
 import questions.Question;
 
 /**
- * Created by Mendez Soto on 6/3/2016.
+ * Adapter to the question list.
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class AdapterQuestion extends BaseAdapter {
+    /**
+     * Context of the app
+     */
     private Context context;
+    /**
+     * Infalter used to inflate view
+     */
     private LayoutInflater inflater;
+    /**
+     * Items to inflate
+     */
     private ArrayList<Question> items;
 
+    /**
+     * Constructor
+     * @param context context of app
+     * @param items Items to inflate
+     */
     public AdapterQuestion(Context context, ArrayList<Question> items)
     {
         this.context = context;

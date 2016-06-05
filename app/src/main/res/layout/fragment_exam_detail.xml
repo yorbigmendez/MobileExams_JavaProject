@@ -61,6 +61,26 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
             </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:text="Exam points: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+                <EditText
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/txtExamPoints"
+                    android:layout_marginLeft="5dp"
+                    android:width="200dp"
+                    android:hint="Exam Points"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+            </TableRow>
 
         </TableLayout>
     </LinearLayout>
@@ -81,7 +101,6 @@
                 android:src="@drawable/icon_save"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"
                 android:visibility="invisible"/>
         </TableRow>
         <TableRow
@@ -96,21 +115,21 @@
                 android:id="@+id/btnSettings"
                 android:src="@drawable/icon_settings"
                 android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"/>
+                android:clickable="true"/>
             <ImageButton
-                android:id="@+id/btnQuestion"
+                android:id="@+id/btnSection"
                 android:src="@drawable/icon_question"
                 android:layout_marginLeft="20dp"
                 android:textAlignment="center"
                 android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"/>
+                android:clickable="true"/>
 
             <ImageButton
-                android:id="@+id/btDelete"
+                android:id="@+id/btnDelete"
                 android:src="@drawable/icon_delete"
                 android:layout_marginLeft="20dp"
                 android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"/>
+                android:clickable="true"/>
 
         </TableRow>
         <TableRow
@@ -122,21 +141,35 @@
 
             <TextView
                 android:background="#FFFFFF"
-                android:text="Edit Info"
-                android:onClick="ButtonOnClick"/>
+                android:text="Edit Info"/>
             <TextView
                 android:layout_marginLeft="20dp"
                 android:textAlignment="center"
                 android:text="Question List"
-                android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"/>
+                android:background="#FFFFFF"/>
 
             <TextView
                 android:layout_marginLeft="20dp"
                 android:text="Delete Section"
-                android:background="#FFFFFF"
-                android:onClick="ButtonOnClick"/>
+                android:background="#FFFFFF"/>
 
+        </TableRow>
+
+        <TableRow
+            android:paddingLeft="50dp"
+            android:paddingRight="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Evaluate this Exam"
+                android:layout_span="3"
+                android:onClick="ButtonOnClick"
+                />
         </TableRow>
     </TableLayout>
 

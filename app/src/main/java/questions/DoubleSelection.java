@@ -1,17 +1,56 @@
 package questions;
 
+import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.TextView;
+
+import cr.ac.itcr.examproject.*;
+
 /**
- * Created by Mendez Soto on 5/26/2016.
+ * DoubleSelection class for questions
+ *
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class DoubleSelection implements Question {
+    /**
+     * Id of the question
+     */
     private int id_question;
+    /**
+     * Question
+     */
     private String question;
+    /**
+     * Possible answer #1
+     */
     private String opc1;
+    /**
+     * Possible answer #2
+     */
     private String opc2;
+    /**
+     * Possible answer #3
+     */
     private String opc3;
+    /**
+     * Possible answer #4
+     */
     private String opc4;
+    /**
+     * Correct Answer #1
+     */
     private String answer1;
+    /**
+     * Correct Answer #2
+     */
     private String answer2;
+    /**
+     * Section of question
+     */
     private int id_section;
 
     /**
@@ -35,6 +74,8 @@ public class DoubleSelection implements Question {
         this.answer2 = answer2;
         this.id_section = id_section;
     }
+
+    public DoubleSelection(){}
 
     public int getId_section() {
         return id_section;
@@ -108,21 +149,7 @@ public class DoubleSelection implements Question {
         this.question = question;
     }
 
-    /**
-     * Used to insert the questions information
-     */
-    @Override
-    public void insertInfo() {
-        
-    }
 
-    /**
-     * Used to eliminate the questions information
-     */
-    @Override
-    public void eliminateInfo() {
-
-    }
 
     /**
      * Evaluates the question
@@ -130,5 +157,27 @@ public class DoubleSelection implements Question {
     @Override
     public void evaluateQuestion() {
 
+    }
+
+    /**
+     * Concatenates the question used to demonstrate what the question has and its possible selection, if any.
+     *
+     * @return Concatenates question with its selections
+     */
+    @Override
+    public Fragment showQuestion() {
+        Fragment f = new DoubleSelectionFragment();
+        View v = f.getView();
+        TextView q = (TextView) v.findViewById(R.id.txtQuestion);
+        q.setText(getQuestion());
+        CheckBox cb1 = (CheckBox)v.findViewById(R.id.checkboxOpc1);
+        cb1.setText(getOpc1());
+        CheckBox cb2 = (CheckBox)v.findViewById(R.id.checkboxOpc2);
+        cb2.setText(getOpc2());
+        CheckBox cb3 = (CheckBox)v.findViewById(R.id.checkboxOpc3);
+        cb3.setText(getOpc3());
+        CheckBox cb4 = (CheckBox)v.findViewById(R.id.checkboxOpc4);
+        cb4.setText(getOpc4());
+        return f;
     }
 }

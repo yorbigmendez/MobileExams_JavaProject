@@ -16,16 +16,33 @@ import sections.Section;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NewSection.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * Fragment to create new section
+ *
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class NewSection extends Fragment {
+    /**
+     * Section name widget
+     */
     private EditText txtName;
+    /**
+     * Text description widget
+     */
     private EditText txtDescription;
+    /**
+     * Create section button widget
+     */
     private Button btnCreateSection;
+    /**
+     * Exam index
+     */
     private int examIndex;
+    /**
+     * Section repo to manage sections
+     */
     private SectionRepository section_repo;
 
 

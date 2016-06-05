@@ -18,6 +18,10 @@
         <activity
             android:name=".ExamManagementDrawer"
             android:label="Exam App"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RealizeExam"
+            android:label="@string/title_activity_realize_exam"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

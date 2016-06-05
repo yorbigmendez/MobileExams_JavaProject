@@ -6,10 +6,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Created by Mendez Soto on 5/26/2016.
+ * SQLiteOpenHelper for the connection to the local database
+ *
+ * This class creates the Database and manages on create of database
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class DBConnection extends SQLiteOpenHelper {
-    private static final int VERSION_BD = 2;
+    /**
+     * Version of the database
+     */
+    private static final int VERSION_BD = 1;
+    /**
+     * Name of the database
+     */
     private static final String NAME_BD = "examdb";
 
     /**
@@ -35,7 +47,7 @@ public class DBConnection extends SQLiteOpenHelper {
             String sqlCreateTrueFlase = "CREATE TABLE IF NOT EXISTS TrueFalse (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "question CHAR(100), answer CHAR(100),id_section INTEGER)";
             String sqlCreateSingleSelection = "CREATE TABLE IF NOT EXISTS DoubleSelection (id INTEGER PRIMARY KEY AUTOINCREMENT, question CHAR(100), option1 CHAR(100)," +
-                    " option2 CHAR(100), option3 CHAR(100), option4 CHAR(100), answer1 CHAR(100), answer2 CHAR(100), id_section INTEGER)";
+                    "option2 CHAR(100), option3 CHAR(100), option4 CHAR(100), answer1 CHAR(100), answer2 CHAR(100), id_section INTEGER)";
             String sqlCreateDoubleSelection = "CREATE TABLE IF NOT EXISTS SingleSelection (id INTEGER PRIMARY KEY AUTOINCREMENT, question CHAR(100), option1 CHAR(100), " +
                     "option2 CHAR(100), option3 CHAR(100), option4 CHAR(100), answer CHAR(100), id_section INTEGER)";
 

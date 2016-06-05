@@ -51,8 +51,8 @@ public class ExamRepository implements IRepository<Exam> {
 
     /**
      * Updates an exam, the points and the author that made it
-     * @param o
-     * @return
+     * @param o Exam Object to update
+     * @return False if no errors, true otherwise
      */
     @Override
     public boolean Update(Exam o) {
@@ -73,6 +73,11 @@ public class ExamRepository implements IRepository<Exam> {
         return true;
     }
 
+    /**
+     * Deletes an exam
+     * @param o Object of the exam
+     * @return False if no erros, true otherwizse
+     */
     @Override
     public boolean Delete(Exam o) {
         try{
@@ -89,6 +94,11 @@ public class ExamRepository implements IRepository<Exam> {
         return false;
     }
 
+    /**
+     * Gets all of the exams
+     * @param id Id is not used here
+     * @return ArraList of exams
+     */
     @Override
     public ArrayList<Exam> GetAll(int id) {
         ArrayList<Exam> exams = new ArrayList<>();
@@ -117,8 +127,4 @@ public class ExamRepository implements IRepository<Exam> {
         return exams;
     }
 
-    @Override
-    public ArrayList<Exam> GetBy(Exam o) {
-        return null;
-    }
 }

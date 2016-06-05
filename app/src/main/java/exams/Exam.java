@@ -3,24 +3,53 @@ package exams;
 import java.util.ArrayList;
 
 import sections.Section;
-
 /**
- * Created by Mendez Soto on 5/26/2016.
+ * Exam class
+ *
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class Exam {
+    /**
+     * Identification of exam
+     */
     private int id;
+    /**
+     * Exam name
+     */
     private String name;
+    /**
+     * Exam total points
+     */
     private double points;
+    /**
+     * Exams author
+     */
     private String author;
+    /**
+     * Exams grade
+     */
     private float grade;
+    /**
+     * Arraylist of exams sections
+     */
     private ArrayList<Section> sectionList;
 
+    /**
+     * Constructor of class
+     * @param i id
+     * @param n name
+     * @param p points
+     * @param a author
+     */
     public Exam(int i,String n, int  p, String a){
         this.id = i;
         this.name = n;
         this.points = p;
         this.author = a;
-        this.grade = (float)3.13;
+        this.grade = (float)0.00;
         this.sectionList = new ArrayList<>();
     }
 
@@ -30,15 +59,6 @@ public class Exam {
 
     public void addSection(Section s){
         this.sectionList.add(s);
-    }
-
-
-    public void removeSection(Section s){
-        for(int x = 0; x < sectionList.size() ; x++){
-            if(sectionList.get(x).equals(s)){
-                sectionList.remove(s);
-            }
-        }
     }
 
     public void setId(int id) {

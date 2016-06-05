@@ -1,11 +1,14 @@
 package cr.ac.itcr.examproject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,19 +27,31 @@ import adapter.AdapterQuestion;
 import questions.Question;
 
 
+
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link QuestionListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * Fragment to cshow question list
+ *
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class QuestionListFragment extends Fragment {
+    /**
+     * Question list
+     */
     private ArrayList<Question> questionList;
+    /**
+     * Section index
+     */
     private int sectionIndex;
+    /**
+     * Adapter of question
+     */
     private AdapterQuestion adapter;
-    private DoubleSelectionRepository doubleSelectRepo;
-    private SingleSelectionRepository singleSelectRepo;
-    private TrueFalseRepository trueFalseRepo;
+    /**
+     * List view widget for questions
+     */
     private ListView listViewQuestion;
 
     private OnFragmentInteractionListener mListener;
@@ -61,47 +76,70 @@ public class QuestionListFragment extends Fragment {
         questionList = new ArrayList<>();
         Bundle b = getArguments();
         sectionIndex = b.getInt("sectionIndex");
-        questionList.addAll(new DoubleSelectionRepository(getContext().getApplicationContext()).GetAll(sectionIndex));
-        questionList.addAll(new SingleSelectionRepository(getContext().getApplicationContext()).GetAll(sectionIndex));
-        questionList.addAll(new TrueFalseRepository(getContext().getApplicationContext()).GetAll(sectionIndex));
+        DoubleSelectionRepository dsr = new DoubleSelectionRepository(getContext().getApplicationContext());
+        ArrayList<Question> questionArray = dsr.GetAll(sectionIndex);
+        if(questionArray != null) {
+            for (int i = 0; i < questionArray.size(); i++) {
+                questionList.add((Question) questionArray.get(i));
+            }
+        }
+        SingleSelectionRepository ssr = new SingleSelectionRepository(getContext().getApplicationContext());
+        questionArray = ssr.GetAll(sectionIndex);
+        if(questionArray!=null) {
+            for (int i = 0; i < questionArray.size(); i++) {
+                questionList.add((Question) questionArray.get(i));
+            }
+        }
+        TrueFalseRepository tfr = new TrueFalseRepository(getContext().getApplicationContext());
+        questionArray = tfr.GetAll(sectionIndex);
+        if(questionArray!= null) {
+            for (int i = 0; i < questionArray.size(); i++) {
+                questionList.add((Question) questionArray.get(i));
+            }
+        }
         listViewQuestion = (ListView)v.findViewById(R.id.listViewQuestions);
         adapter = new AdapterQuestion(getContext().getApplicationContext(),questionList);
         listViewQuestion.setAdapter(adapter);
-        listViewQuestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewQuestion.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Item on Clicke action here
-                //Fragment manager to manage a fragment transaction
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-
-                //Fragment to replace
-                Fragment f = getQuestionFragment(position);
-                //Prepare bundle to send info the the other fragment
-                Bundle bundle = new Bundle();
-                //Send the position of the list item that has been selected
-                bundle.putInt("questionIndex",position);
-                f.setArguments(bundle);
-                transaction.replace(R.id.content_dashboard, f);
-                //On back then go back to ExamListFragment
-                transaction.addToBackStack(null);
-                //Commit transaction
-                transaction.commit();
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog.setTitle("Question delete");
+                alertDialog.setMessage("Are you sure you want to delete the question?");
+                Log.e("Set Buttons", "This is going to test");
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Delete question here
+                    }
+                });
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                // Showing Alert Message
+                alertDialog.show();
+                return false;
             }
         });
 
         return v;
     }
 
+    /**
+     * Gets the fragment depending on the question
+     * @param pos
+     * @return
+     */
     public Fragment getQuestionFragment(int pos){
         Question q = questionList.get(pos);
         switch (q.getClass().getName()){
             case "SingleSelection":
-                return new SingleSelectionDetailFragment();
+                return new SingleSelectionFragment();
             case "DoubleSelection":
-                return new DoubleSelectionDetailFragment();
+                return new DoubleSelectionFragment();
             case "TrueFalse":
-                return new TrueFalseDetailFragment();
+                return new TrueFalseFragment();
         }
         return null;
     }

@@ -1,32 +1,41 @@
 package cr.ac.itcr.examproject;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
-import questions.Question;
-
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NewQuestion.OnFragmentInteractionListener} interface
- * to handle interaction events
+ * Fragment to create a new question
+ *
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
-public class NewQuestion extends Fragment implements AdapterView.OnItemSelectedListener{
+public class NewQuestion extends Fragment{
+    /**
+     * Section index
+     */
     private int sectionIndex;
+    /**
+     * Spinner
+     */
+    private Spinner spin;
+    /**
+     * Button create widget
+     */
+    private Button btnCreate;
     private OnFragmentInteractionListener mListener;
 
     public NewQuestion() {
@@ -46,14 +55,40 @@ public class NewQuestion extends Fragment implements AdapterView.OnItemSelectedL
         sectionIndex = b.getInt("sectionIndex");
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_new_question, container, false);
-        Spinner spinner = (Spinner) v.findViewById(R.id.spinType);
+        btnCreate = (Button)v.findViewById(R.id.btnCreate);
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String spinSelection = spin.getSelectedItem().toString();
+                // An item was selected. Retrieve the selected item using
+                switch (spinSelection){
+                    case "Single Selection":
+                        invokeChangeFragment(new NewSingleSelection());
+                        Log.e("Single Selection","Single selection is selected");
+                        break;
+                    case "Double Selection":
+                        Log.e("Double Selection","Double selection is selected");
+                        invokeChangeFragment(new NewDoubleSelection());
+                        break;
+                    case "True False":
+                        Log.e("True False", "New True false is selected");
+                        invokeChangeFragment(new NewTrueFalse());
+                        break;
+                    case "":
+                        new AlertDialog.Builder(getContext()).setTitle("Warning").setMessage("The selection is invalid").setIcon(android.R.drawable.ic_dialog_alert).show();
+                        break;
+                }
+            }
+        });
+        spin = (Spinner) v.findViewById(R.id.spinType);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext().getApplicationContext(),
                 R.array.question_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        spin.setAdapter(adapter);
+
         return v;
     }
 
@@ -65,19 +100,10 @@ public class NewQuestion extends Fragment implements AdapterView.OnItemSelectedL
         }
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
-        // An item was selected. Retrieve the selected item using
-        switch (parent.getItemAtPosition(pos).toString()){
-            case "SingleSelection":
-                invokeChangeFragment(new NewSingleSelection());
-            case "DoubleSelection":
-                invokeChangeFragment(new NewDoubleSelection());
-            case "TrueFalse":
-                invokeChangeFragment(new NewTrueFalse());
-        }
-    }
-
+    /**
+     * Switch fragments depending on the fragment parameter.
+     * @param f Fragment: The fragment that we are going to invoke in the fragmnet transaction
+     */
     public void invokeChangeFragment(Fragment f){
         //Item on Clicke action here
         //Fragment manager to manage a fragment transaction
@@ -89,8 +115,6 @@ public class NewQuestion extends Fragment implements AdapterView.OnItemSelectedL
         bundle.putInt("sectionIndex",sectionIndex);
         f.setArguments(bundle);
         transaction.replace(R.id.content_dashboard, f);
-        //On back then go back to ExamListFragment
-        transaction.addToBackStack(null);
         //Commit transaction
         transaction.commit();
     }
@@ -109,18 +133,6 @@ public class NewQuestion extends Fragment implements AdapterView.OnItemSelectedL
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    /**
-     * Callback method to be invoked when the selection disappears from this
-     * view. The selection can disappear for instance when touch is activated
-     * or when the adapter becomes empty.
-     *
-     * @param parent The AdapterView that now contains no selected item.
-     */
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     /**

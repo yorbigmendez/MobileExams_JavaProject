@@ -1,20 +1,16 @@
 package questions;
 
+import android.support.v4.app.Fragment;
+
 /**
- * Interface that is used to define the schema that the questions will have on the project.
+ * Interface for all the questions
+ *
+ * @author Yorbi Méndez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public interface Question {
     public String getQuestion();
-    /**
-     * Used to insert the questions information
-     */
-    public void insertInfo();
-
-    /**
-     * Used to eliminate the questions information
-     */
-    public void eliminateInfo();
-
     /**
      * Evaluates the question
      */
@@ -24,6 +20,6 @@ public interface Question {
      * Concatenates the question used to demonstrate what the question has and its possible selection, if any.
      * @return Concatenates question with its selections
      */
-    public String toString();
+    public Fragment showQuestion();
 
 }

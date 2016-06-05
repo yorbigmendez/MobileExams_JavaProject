@@ -3,6 +3,7 @@ package cr.ac.itcr.examproject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,22 +24,26 @@ import exams.Exam;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ExamListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
+* Fragment that lists the exams
+*
+*
+* @author Yorbi Mendez Soto
+* @version 06/04/2016
+* @since 1.0
+*/
 public class ExamListFragment extends Fragment {
     private ListView listViewExams;
     private static AdapterExam adapter;
     private ExamRepository repository;
+    private String action;
 
-
-    private OnFragmentInteractionListener mListener;
-
+    /**
+     * Empty constructor of class
+     */
     public ExamListFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,12 +51,20 @@ public class ExamListFragment extends Fragment {
     }
 
 
-
+    /**
+     * Initializes the widgets of the view
+     * @param inflater Used to inflate te view
+     * @param container Container we are going to inflate the view
+     * @param savedInstanceState SavedState of the app
+     * @return View: The view created
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getActivity().setTitle("Exams");
         setHasOptionsMenu(true);
+        Bundle b = getArguments();
+        action = b.getString("action");
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_exams, container, false);
         listViewExams = (ListView)v.findViewById(R.id.listViewExams);
@@ -61,18 +74,24 @@ public class ExamListFragment extends Fragment {
                 //Fragment manager to manage a fragment transaction
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                //Fragment to replace
-                Fragment f = new ExamDetailFragment();
-                //Prepare bundle to send info the the other fragment
-                Bundle bundle = new Bundle();
-                //Send the position of the list item that has been selected
-                bundle.putInt("examIndex",position);
-                f.setArguments(bundle);
-                transaction.replace(R.id.content_dashboard, f);
-                //On back then go back to ExamListFragment
-                transaction.addToBackStack(null);
-                //Commit transaction
-                transaction.commit();
+                if(action.equals("manage")){
+                    //Fragment to replace
+                    Fragment f = new ExamDetailFragment();
+                    //Prepare bundle to send info the the other fragment
+                    Bundle bundle = new Bundle();
+                    //Send the position of the list item that has been selected
+                    bundle.putInt("examIndex",position);
+                    f.setArguments(bundle);
+                    transaction.replace(R.id.content_dashboard, f);
+                    //On back then go back to ExamListFragment
+                    transaction.addToBackStack(null);
+                    //Commit transaction
+                    transaction.commit();
+                }else{//Start the exam
+                    Intent intent = new Intent(getContext().getApplicationContext(),RealizeExam.class);
+                    intent.putExtra("examIndex",position);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -86,13 +105,9 @@ public class ExamListFragment extends Fragment {
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
+    /**
+     * Show a dialog when the exams are empty
+     */
     public void showEmptyDialog(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
         alertDialog.setTitle("No exams");
@@ -122,21 +137,21 @@ public class ExamListFragment extends Fragment {
         alertDialog.show();
     }
 
+    /**
+     * Calls super class on fragment attached
+     * @param context context of the app
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
+    /**
+     * Called when fragment is detached
+     */
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
 

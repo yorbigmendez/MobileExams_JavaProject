@@ -22,25 +22,59 @@ import exams.Exam;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ExamDetailFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * create an instance of this fragment.
+ * Fragment ot show detail of exam
+ *
+ * Show the detail of an exam.
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
-public class ExamDetailFragment extends Fragment implements View.OnClickListener{
+public class ExamDetailFragment extends Fragment{
+    /**
+     * Exam repository
+     */
     private ExamRepository exam_repo;
-    private ArrayList<Exam> exam_list;
+    /**
+     * Actual exam
+     */
     private Exam actual_exam;
+    /**
+     * Widget of examName
+     */
     private EditText examName;
+    /**
+     * Widget of examAuthor
+     */
     private EditText examAuthor;
+    /**
+     * Widget of examPoints
+     */
     private EditText examPoints;
+    /**
+     * Widget of delete button
+     */
     private ImageButton btnDelete;
+    /**
+     * Widget of edit button
+     */
     private ImageButton btnEdit;
+    /**
+     * Widget of section button
+     */
     private ImageButton btnSection;
+    /**
+     * Widget of save button
+     */
     private ImageButton btnSave;
+    /**
+     * Key listener of EditText
+     */
     private KeyListener variable;//Save the keyListener of the edit text, here is true
 
+    /**
+     * Empty Constructor
+     */
     public ExamDetailFragment() {
         // Required empty public constructor
     }
@@ -55,46 +89,9 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
         examAuthor = (EditText) v.findViewById(R.id.txtExamAuthor);
         examPoints = (EditText) v.findViewById(R.id.txtExamPoints);
         btnSection = (ImageButton) v.findViewById(R.id.btnSection);
-        btnSection.setOnClickListener(this);
-        btnSave = (ImageButton)v.findViewById(R.id.btnSave);
-        btnSave.setOnClickListener(this);
-        btnDelete = (ImageButton) v.findViewById(R.id.btnDelete);
-        btnDelete.setOnClickListener(this);
-        btnEdit = (ImageButton) v.findViewById(R.id.btnSettings);
-        btnEdit.setOnClickListener(this);
-        //Get repo
-        exam_repo = new ExamRepository(getContext().getApplicationContext());
-        Bundle b = getArguments();
-        //Get the exam and save it as actual exam
-        actual_exam = exam_repo.GetAll(0).get(b.getInt("examIndex"));
-        // Set the text fields
-        examName.setText(actual_exam.getName());
-        examAuthor.setText(actual_exam.getAuthor());
-        examPoints.setText(String.valueOf(actual_exam.getPoints()));
-        variable = examName.getKeyListener();
-
-        return v;
-    }
-
-
-    @Override
-    public void onClick(View v){
-        // implements your things
-        switch (v.getId()){
-            case R.id.btnSettings:
-                //0 is visible
-                manageEditTexts(examAuthor, 1);//Set editable
-                manageEditTexts(examName, 1);
-                manageEditTexts(examPoints, 1);
-                btnSave.setVisibility(View.VISIBLE);
-                btnSection.setVisibility(View.INVISIBLE);
-                btnEdit.setVisibility(View.INVISIBLE);
-                break;
-            case R.id.btnDelete:
-                showDeleteAlert();
-                break;
-
-            case R.id.btnSection:
+        btnSection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 //Fragment manager to manage a fragment transaction
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
@@ -110,6 +107,62 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
                 transaction.addToBackStack(null);
                 //Commit transaction
                 transaction.commit();
+            }
+        });
+        btnSave = (ImageButton)v.findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        btnDelete = (ImageButton) v.findViewById(R.id.btnDelete);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        btnEdit = (ImageButton) v.findViewById(R.id.btnSettings);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        //Get repo
+        exam_repo = new ExamRepository(getContext().getApplicationContext());
+        Bundle b = getArguments();
+        //Get the exam and save it as actual exam
+        actual_exam = exam_repo.GetAll(0).get(b.getInt("examIndex"));
+        // Set the text fields
+        examName.setText(actual_exam.getName());
+        examAuthor.setText(actual_exam.getAuthor());
+        examPoints.setText(String.valueOf(actual_exam.getPoints()));
+        variable = examName.getKeyListener();
+        return v;
+    }
+
+    /**
+     * Manages the button click events
+     * @param v Button clicked
+     */
+    public void onClick(View v){
+        // implements your things
+        switch (v.getId()){
+            case R.id.btnSettings:
+                //0 is visible
+                manageEditTexts(examAuthor, 1);//Set editable
+                manageEditTexts(examName, 1);
+                manageEditTexts(examPoints, 1);
+                btnSave.setVisibility(View.VISIBLE);
+                btnSection.setVisibility(View.INVISIBLE);
+                btnEdit.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.btnDelete:
+                showDeleteAlert();
+                break;
+            case R.id.btnSection:
                 break;
             case R.id.btnSave:
                 //Exam to edit
@@ -131,6 +184,12 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
 
         }
     }
+
+    /**
+     * Manages the editTexts, sets editable and what not
+     * @param edit Edit text to editt
+     * @param action 0: Show, 1: Hide
+     */
     public void manageEditTexts(EditText edit,int action){
 
         switch (action) {
@@ -143,14 +202,15 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
                 break;
         }
     }
+
+    /**
+     * Alert to show in case of deletion
+     */
     public void showDeleteAlert(){
-        Log.e("ALert Dialog","This is going to test");
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        Log.e("Set Title","This is going to test");
         alertDialog.setTitle("Delete exam");
         Log.e("Set Message", "This is going to test");
         alertDialog.setMessage("Are you sure you want to delete this exam with all its sections questions?");
-        Log.e("Set Buttons", "This is going to test");
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 //Delete the exam
@@ -158,16 +218,13 @@ public class ExamDetailFragment extends Fragment implements View.OnClickListener
                 getActivity().onBackPressed();
             }
         });
-        Log.e("Set Butons 2", "This is going to test");
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
-        Log.e("Dialog show it", "This is going to test");
         // Showing Alert Message
         alertDialog.show();
-        Log.e("SHOWED ITTT", "This is going to test");
     }
 
 

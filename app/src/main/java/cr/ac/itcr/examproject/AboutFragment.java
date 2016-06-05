@@ -10,15 +10,21 @@ import android.view.ViewGroup;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AboutFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * Fragment to show About app information
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class AboutFragment extends Fragment {
-
+    /**
+     * Listener on frag interaction
+     */
     private OnFragmentInteractionListener mListener;
 
+    /**
+     * Constructor
+     */
     public AboutFragment() {
         // Required empty public constructor
     }
@@ -29,6 +35,13 @@ public class AboutFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Used to create view
+     * @param inflater inflater
+     * @param container containr to inflate
+     * @param savedInstanceState Instance saved
+     * @return View created
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

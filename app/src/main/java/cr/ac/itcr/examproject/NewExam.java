@@ -16,17 +16,29 @@ import exams.Exam;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NewExam.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * Fragment to create new exam
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class NewExam extends Fragment {
 
-    //Attributes of the class
+    /**
+     * Button to add exam
+     */
     private Button btnAddExam;
+    /**
+     * Exam name widget
+     */
     private EditText examName;
+    /**
+     * Exam Authoer wiget
+     */
     private EditText examAuthor;
+    /**
+     * Exam points widget
+     */
     private EditText examPoints;
 
     private OnFragmentInteractionListener mListener;

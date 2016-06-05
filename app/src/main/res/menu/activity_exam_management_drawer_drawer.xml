@@ -7,6 +7,10 @@
             android:icon="@drawable/icon_add"
             android:title="Create new exam" />
         <item
+            android:id="@+id/menu_manage_exam"
+            android:icon="@drawable/evaluate_exam"
+            android:title="Manage exams" />
+        <item
             android:id="@+id/menu_evaluate_exam"
             android:icon="@drawable/evaluate_exam"
             android:title="Evaluate an exam" />
@@ -14,6 +18,10 @@
             android:id="@+id/menu_sign_out"
             android:icon="@drawable/icon_sign_out"
             android:title="Sign out" />
+        <item
+            android:id="@+id/menu_about_app"
+            android:icon="@drawable/icon_sign_out"
+            android:title="About" />
     </group>
 
 

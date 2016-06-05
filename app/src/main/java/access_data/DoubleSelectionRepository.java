@@ -12,13 +12,33 @@ import questions.DoubleSelection;
 import sections.Section;
 
 /**
- * Created by Mendez Soto on 5/26/2016.
+ * Repository for access to data
+ *
+ * Used to access all the double selection questions from the database
+ *
+ * @author Yorbi Mendez Soto
+ * @version 6/04/2015
+ * @since 1.0
  */
 public class DoubleSelectionRepository implements  IRepository<DoubleSelection>{
+    /**
+     * The connection of the DBConnection Class
+     */
     private DBConnection connect;
+
+    /**
+     * Constructor of class
+     * @param context context of the app
+     */
     public DoubleSelectionRepository(Context context){
         connect = new DBConnection(context);
     }
+
+    /**
+     * Saves a double selection question to the database
+     * @param o DoubleSelection question instance
+     * @return False if no errors, true otherwise
+     */
     @Override
     public boolean Save(DoubleSelection o) {
         try{
@@ -43,6 +63,11 @@ public class DoubleSelectionRepository implements  IRepository<DoubleSelection>{
         return true;
     }
 
+    /**
+     * Updates a sections info
+     * @param o Double Selection instance
+     * @return False if no fail, true otherwise
+     */
     @Override
     public boolean Update(DoubleSelection o) {
         try{
@@ -67,6 +92,11 @@ public class DoubleSelectionRepository implements  IRepository<DoubleSelection>{
         return true;
     }
 
+    /**
+     * Deletes a question of DoubleSelection
+     * @param o The DoubleSelection question to eliminate
+     * @return False if errors, True otherwise
+     */
     @Override
     public boolean Delete(DoubleSelection o) {
         try{
@@ -83,6 +113,11 @@ public class DoubleSelectionRepository implements  IRepository<DoubleSelection>{
         return false;
     }
 
+    /**
+     * Gets all the questions base on the section id give
+     * @param id Section id to get the questions from
+     * @return ArrayList<DoubleSelection> Arraylist of DoubleSelection questions
+     */
     @Override
     public ArrayList GetAll(int id) {
         ArrayList<DoubleSelection> questions = new ArrayList<>();
@@ -118,8 +153,4 @@ public class DoubleSelectionRepository implements  IRepository<DoubleSelection>{
         return null;
     }
 
-    @Override
-    public ArrayList GetBy(DoubleSelection o) {
-        return null;
-    }
 }

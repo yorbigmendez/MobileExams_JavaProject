@@ -1,7 +1,6 @@
 package cr.ac.itcr.examproject;
 
 import android.app.AlertDialog;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -17,26 +16,54 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import access_data.ExamRepository;
 import access_data.SectionRepository;
 import sections.Section;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SectionDetailFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * Fragment to show section detail
+ *
+ *
+ * @author Yorbi Mendez Soto
+ * @version 06/04/2016
+ * @since 1.0
  */
 public class SectionDetailFragment extends Fragment implements View.OnClickListener {
+    /**
+     * Actual section object
+     */
     private Section actual_section;
+    /**
+     * Section repository
+     */
     private SectionRepository section_repo;
+    /**
+     * Section name widget
+     */
     private EditText sectionName;
+    /**
+     * Section description widget
+     */
     private EditText sectionDescription;
+    /**
+     * Button delete widget
+     */
     private ImageButton btnDelete;
+    /**
+     * Button edit widget
+     */
     private ImageButton btnEdit;
+    /**
+     * Button save widget
+     */
     private ImageButton btnSave;
+    /**
+     * Button question widget
+     */
     private ImageButton btnQuestion;
+    /**
+     * keylistener of edittext
+     */
     private KeyListener variable;//Save the keyListener of the edit text, here is true
 
     private OnFragmentInteractionListener mListener;
@@ -72,7 +99,7 @@ public class SectionDetailFragment extends Fragment implements View.OnClickListe
         section_repo = new SectionRepository(getContext().getApplicationContext());
         Bundle b = getArguments();
         //Get the exam and save it as actual exam
-        actual_section = section_repo.GetAll(0).get(b.getInt("sectionIndex"));
+        actual_section = section_repo.GetAll(b.getInt("examIndex")).get(b.getInt("sectionIndex"));
         // Set the text fields
         sectionName.setText(actual_section.getName());
         sectionDescription.setText(actual_section.getDescription());
@@ -80,6 +107,10 @@ public class SectionDetailFragment extends Fragment implements View.OnClickListe
         return v;
     }
 
+    /**
+     * Manages on ImageButtonClick
+     * @param v Image button clicked
+     */
     @Override
     public void onClick(View v){
         // implements your things
@@ -132,6 +163,11 @@ public class SectionDetailFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    /**
+     * Sets editable or no the editext widgets
+     * @param edit EditText to change
+     * @param action action to invoke
+     */
     public void manageEditTexts(EditText edit,int action){
 
         switch (action) {
@@ -145,10 +181,13 @@ public class SectionDetailFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    /**
+     * Shows a delete alert just to make sure
+     */
     public void showDeleteAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
         alertDialog.setTitle("Delete section");
-        alertDialog.setMessage("Are you sure you want to delete this section and questions?");
+        alertDialog.setMessage("Are you sure you want to delete this section and its questions?");
         Log.e("Set Buttons", "This is going to test");
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
